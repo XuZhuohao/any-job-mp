@@ -1,4 +1,4 @@
-package com.yui.tools.anyjob.dto.wx.job;
+package com.yui.tools.anyjob.dto.job;
 
 import lombok.Data;
 

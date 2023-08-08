@@ -4,8 +4,8 @@ import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson2.JSON;
 import com.yui.tools.anyjob.dto.wx.input.InRMNormalText;
 import com.yui.tools.anyjob.dto.wx.input.InReceivingMessage;
-import com.yui.tools.anyjob.dto.wx.job.CallMessageDto;
-import com.yui.tools.anyjob.dto.wx.job.CallResultDto;
+import com.yui.tools.anyjob.dto.job.CallMessageDto;
+import com.yui.tools.anyjob.dto.job.CallResultDto;
 import com.yui.tools.anyjob.service.AnyJobService;
 import org.springframework.stereotype.Service;
 

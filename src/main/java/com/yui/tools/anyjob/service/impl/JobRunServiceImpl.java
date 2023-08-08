@@ -2,6 +2,7 @@ package com.yui.tools.anyjob.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.alibaba.fastjson2.JSON;
+import com.yui.tools.anyjob.dto.Result;
 import com.yui.tools.anyjob.dto.wx.input.InRMNormalText;
 import com.yui.tools.anyjob.dto.wx.input.InReceivingMessage;
 import com.yui.tools.anyjob.service.AnyJobService;
@@ -34,19 +35,19 @@ public class JobRunServiceImpl implements JobRunService {
     }
 
     @Override
-    public Function<InReceivingMessage, Object> select(InRMNormalText text) {
+    public Result<Function<InReceivingMessage, Object>> select(InRMNormalText text) {
         String content = text.getContent();
         if (!content.contains(":")) {
-            return (t) -> "感谢关注，缺少关键字";
+            return Result.fail("感谢关注，缺少关键字", -1);
         }
         int first = content.indexOf(":");
         String methodKey = content.substring(0, first);
         String param = content.substring(first + 1);
         text.setContent(param);
         if (SERVICES.containsKey(methodKey)) {
-            return SERVICES.get(methodKey)::process;
+            return Result.success(SERVICES.get(methodKey)::process);
         }
-        return (t) -> "感谢关注，缺少关键字";
+        return Result.fail("感谢关注，缺少关键字", -1);
     }
 
 }

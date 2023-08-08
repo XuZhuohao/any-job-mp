@@ -3,6 +3,7 @@ package com.yui.tools.anyjob.controller;
 import com.alibaba.fastjson2.JSON;
 import com.yui.tools.anyjob.conf.CacheConfig;
 import com.yui.tools.anyjob.conf.WxConfig;
+import com.yui.tools.anyjob.dto.Result;
 import com.yui.tools.anyjob.dto.wx.input.InAccessOverview;
 import com.yui.tools.anyjob.dto.wx.input.InRMNormalText;
 import com.yui.tools.anyjob.dto.wx.input.InReceivingMessage;
@@ -15,6 +16,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.function.Function;
 
 /**
  * @author Yui_HTT -- haogg
@@ -57,7 +60,11 @@ public class WxMessageController {
         try {
             long key;
             if ("text".equals(inReceivingMessage.getMsgType())) {
-                key = asyncAnyJobService.process(inReceivingMessage, jobRunService.select((InRMNormalText) inReceivingMessage));
+                Result<Function<InReceivingMessage, Object>> selectResult = jobRunService.select((InRMNormalText) inReceivingMessage);
+                if (!selectResult.isSuccess()) {
+                    return wxService.replyMessage(selectResult.getMessage(), inReceivingMessage);
+                }
+                key = asyncAnyJobService.process(inReceivingMessage, selectResult.getData());
             } else {
                 return wxService.replyMessage("感谢关注，自动应答只支持文字信息", inReceivingMessage);
             }

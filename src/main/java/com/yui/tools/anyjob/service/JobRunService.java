@@ -1,5 +1,6 @@
 package com.yui.tools.anyjob.service;
 
+import com.yui.tools.anyjob.dto.Result;
 import com.yui.tools.anyjob.dto.wx.input.InRMNormalText;
 import com.yui.tools.anyjob.dto.wx.input.InReceivingMessage;
 
@@ -12,5 +13,5 @@ import java.util.function.Function;
  */
 public interface JobRunService {
 
-    Function<InReceivingMessage, Object> select(InRMNormalText text);
+    Result<Function<InReceivingMessage, Object>> select(InRMNormalText text);
 }
