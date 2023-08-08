@@ -22,5 +22,6 @@ public interface AnyJobService<T> {
      */
     T process(InReceivingMessage inReceivingMessage);
 
+    String help(InReceivingMessage param);
 
 }

@@ -72,6 +72,7 @@ public class WxMessageController {
         AsyncInfoDto job = asyncAnyJobService.process(inReceivingMessage, func);
         try {
             Object o = job.getFuture().get(2, TimeUnit.SECONDS);
+            log.info("result====:{}", JSON.toJSONString(o));
             return wxService.replyMessage(o, inReceivingMessage);
         } catch (Exception e) {
             log.error("异常：{}",e.getMessage(), e);

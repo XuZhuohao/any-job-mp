@@ -45,8 +45,13 @@ public class JobRunServiceImpl implements JobRunService {
         String param = content.substring(first + 1);
         text.setContent(param);
         if (SERVICES.containsKey(methodKey)) {
+            if ("help".equalsIgnoreCase(param.trim())) {
+                return Result.success(SERVICES.get(methodKey)::help);
+            }
             return Result.success(SERVICES.get(methodKey)::process);
         }
+
+
         return Result.fail("感谢关注，缺少关键字", -1);
     }
 
