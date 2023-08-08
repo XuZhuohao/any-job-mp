@@ -1,7 +1,6 @@
 package com.yui.tools.anyjob.service.impl.job;
 
 import com.yui.tools.anyjob.common.annotation.Intro;
-import com.yui.tools.anyjob.dto.job.CallResultDto;
 import com.yui.tools.anyjob.dto.wx.input.InReceivingMessage;
 import com.yui.tools.anyjob.service.AnyJobService;
 import lombok.extern.slf4j.Slf4j;
