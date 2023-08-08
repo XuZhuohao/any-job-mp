@@ -1,1 +1,12 @@
+yui:
+  any-job:
+    wx:
+      info:
+        appid: 微信 appid
+        appSecret: 微信 appSecret
+        token: 微信配置 token
+    cache:
+      url: ${host}/syncJob/result/
+server:
+  port: 9031
 
