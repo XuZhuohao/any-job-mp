@@ -37,9 +37,13 @@ public class JobRunServiceImpl implements JobRunService {
     @Override
     public Result<Function<InReceivingMessage, Object>> select(InRMNormalText text) {
         String content = text.getContent();
-        if (!content.contains(":")) {
+        if (!content.contains(":") ) {
+            if ( "help".equalsIgnoreCase(content.trim())) {
+                return Result.success(SERVICES.get("help")::help);
+            }
             return Result.fail("感谢关注，缺少关键字", -1);
         }
+
         int first = content.indexOf(":");
         String methodKey = content.substring(0, first);
         String param = content.substring(first + 1);
