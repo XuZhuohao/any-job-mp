@@ -59,7 +59,7 @@ public class WxMessageController {
             if ("text".equals(inReceivingMessage.getMsgType())) {
                 key = asyncAnyJobService.process(inReceivingMessage, jobRunService.select((InRMNormalText) inReceivingMessage));
             } else {
-                return wxService.replyMessage("只支持文字信息", inReceivingMessage);
+                return wxService.replyMessage("感谢关注，自动应答只支持文字信息", inReceivingMessage);
             }
             return wxService.replyMessage(cacheConfig.getUrl() + key, inReceivingMessage);
         } catch (Exception e) {

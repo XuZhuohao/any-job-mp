@@ -36,16 +36,17 @@ public class JobRunServiceImpl implements JobRunService {
     @Override
     public Function<InReceivingMessage, Object> select(InRMNormalText text) {
         String content = text.getContent();
+        if (!content.contains(":")) {
+            return (t) -> "感谢关注，缺少关键字";
+        }
         int first = content.indexOf(":");
         String methodKey = content.substring(0, first);
         String param = content.substring(first + 1);
-        InRMNormalText runMessage = new InRMNormalText();
-        BeanUtil.copyProperties(text, runMessage);
-        runMessage.setContent(param);
+        text.setContent(param);
         if (SERVICES.containsKey(methodKey)) {
             return SERVICES.get(methodKey)::process;
         }
-        return (t) -> "没有对应的方法";
+        return (t) -> "感谢关注，缺少关键字";
     }
 
 }
