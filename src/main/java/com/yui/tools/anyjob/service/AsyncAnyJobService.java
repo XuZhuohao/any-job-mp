@@ -1,5 +1,6 @@
 package com.yui.tools.anyjob.service;
 
+import com.yui.tools.anyjob.dto.job.AsyncInfoDto;
 import com.yui.tools.anyjob.dto.wx.input.InReceivingMessage;
 
 import java.util.function.Function;
@@ -16,7 +17,7 @@ public interface AsyncAnyJobService {
      * @param inReceivingMessage 入参
      * @return 结果
      */
-    <T> long process(InReceivingMessage inReceivingMessage, Function<InReceivingMessage, T> anyJobService);
+    <T> AsyncInfoDto process(InReceivingMessage inReceivingMessage, Function<InReceivingMessage, T> anyJobService);
 
     Object getResult(long key);
 

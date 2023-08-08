@@ -48,6 +48,10 @@ public class WxServiceImpl implements WxService {
             normalText.setContent((String)result);
         } else {
             JSONObject from = JSONObject.from(result);
+            if (from == null) {
+                normalText.setContent(result.toString());
+                return normalText;
+            }
             StringBuilder sb = new StringBuilder();
             from.forEach((key, value) -> sb.append(key).append(":").append(value).append("\r\n"));
             normalText.setContent(sb.toString());

@@ -1,6 +1,7 @@
 package com.yui.tools.anyjob.service.impl;
 
 import com.yui.tools.anyjob.conf.CacheConfig;
+import com.yui.tools.anyjob.dto.job.AsyncInfoDto;
 import com.yui.tools.anyjob.dto.wx.input.InReceivingMessage;
 import com.yui.tools.anyjob.service.AsyncAnyJobService;
 import lombok.Getter;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -29,14 +31,15 @@ public class AsyncAnyJobServiceImpl implements AsyncAnyJobService {
     private static ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(5, 14, 1L,TimeUnit.HOURS, new LinkedBlockingQueue(100));
 
     @Override
-    public <T> long process(InReceivingMessage inReceivingMessage, Function<InReceivingMessage, T> anyJobService) {
+    public <T> AsyncInfoDto process(InReceivingMessage inReceivingMessage, Function<InReceivingMessage, T> anyJobService) {
         updateCacheSize();
         long l = System.currentTimeMillis();
-        threadPoolExecutor.submit(() -> {
+        Future<?> submit = threadPoolExecutor.submit(() -> {
             T apply = anyJobService.apply(inReceivingMessage);
             CACHE.put(l, apply);
+            return apply;
         });
-        return l;
+        return AsyncInfoDto.builder().key(l).future(submit).build();
     }
 
     @Override
