@@ -1,4 +1,4 @@
-package com.yui.tools.anyjob.service.impl;
+package com.yui.tools.anyjob.service.impl.job;
 
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson2.JSON;
