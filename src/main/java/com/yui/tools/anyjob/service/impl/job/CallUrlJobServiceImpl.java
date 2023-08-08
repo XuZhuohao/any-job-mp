@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
  * @date 2023-08-07
  */
 
-@Intro("调用url")
+@Intro("通过参数对url进行调用")
 @Primary
 @Service("CallUrlJob")
 public class CallUrlJobServiceImpl implements AnyJobService<CallResultDto> {

@@ -9,7 +9,7 @@ import lombok.Data;
  * @date 2023-08-07
  */
 @Data
-@Intro("通过参数对url进行调用")
+@Intro("调用信息")
 public class CallMessageDto {
 
     @Intro("Get 代表 get 请求，否则代表 post 请求")
