@@ -1,9 +1,9 @@
 package com.yui.tools.anyjob.common.annotation;
 
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONWriter;
 import com.fasterxml.jackson.databind.util.LRUMap;
-import com.yui.tools.anyjob.dto.job.AsyncInfoDto;
 
-import java.lang.ref.SoftReference;
 import java.lang.reflect.Field;
 
 /**
@@ -14,6 +14,13 @@ import java.lang.reflect.Field;
 public class HelpTools {
 
     private final static LRUMap<Class<?>, String> CACHE_LRU = new LRUMap<>(16, 1024);
+
+    /**
+     * 获取参数说明
+     *
+     * @param clazz class
+     * @return 结果
+     */
     public static String help(Class<?> clazz) {
         String s = CACHE_LRU.get(clazz);
         if (s != null) {
@@ -30,7 +37,45 @@ public class HelpTools {
         return CACHE_LRU.get(clazz);
     }
 
-    public static void main(String[] args) {
-        System.out.println(HelpTools.help(AsyncInfoDto.class));
+    /**
+     * 获取参数模板
+     *
+     * @param clazz class
+     * @return 结果
+     */
+    public static String getTemplate(Class<?> clazz) {
+        try {
+            Object o = clazz.getConstructor().newInstance();
+            return JSON.toJSONString(o, JSONWriter.Feature.WriteNullStringAsEmpty,
+                    JSONWriter.Feature.WriteMapNullValue,
+                    JSONWriter.Feature.WriteNullListAsEmpty,
+                    // 格式化输出
+                    JSONWriter.Feature.PrettyFormat);
+        } catch (Exception e) {
+            return "";
+        }
     }
+
+    /**
+     * 构建 help 文本
+     *
+     * @param paramClazz  入参类型
+     * @param resultClazz 结果类型
+     * @return 完整
+     */
+    public static String buildHelp(Class<?> paramClazz, Class<?> resultClazz) {
+        StringBuilder sb = new StringBuilder();
+        if (paramClazz != null) {
+            sb.append("====入参=====\n").append(HelpTools.help(paramClazz));
+        }
+        if (resultClazz != null) {
+            sb.append("\n====结果=====\n").append(HelpTools.help(resultClazz));
+        }
+
+        if (paramClazz != null) {
+            sb.append("\n===入参模板====\n").append(HelpTools.getTemplate(paramClazz));
+        }
+        return sb.toString();
+    }
+
 }

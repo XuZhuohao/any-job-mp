@@ -42,10 +42,7 @@ public class CallUrlJobServiceImpl implements AnyJobService<CallResultDto> {
 
     @Override
     public String help(InReceivingMessage help) {
-        return "====入参=====\n" +
-                HelpTools.help(CallMessageDto.class) +
-                "\n====结果=====\n" +
-                HelpTools.help(CallResultDto.class);
+        return HelpTools.buildHelp(CallMessageDto.class, CallResultDto.class);
     }
 
 }
